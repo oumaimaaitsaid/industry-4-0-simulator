@@ -68,6 +68,20 @@ class DataSimulator:
             }
         }
     
-  
+    def _update_sensor(self, sensor_name: str) -> float:
+        """Mettre à jour la valeur d'un capteur"""
+        state = self.sensor_states[sensor_name]
+        
+        # Variation aléatoire
+        variation = random.uniform(-state['variation'], state['variation'])
+        new_value = state['current'] + variation
+        
+        # Limiter aux bornes min/max
+        new_value = max(state['min'], min(state['max'], new_value))
+        
+        # Mettre à jour l'état
+        state['current'] = new_value
+        
+        return new_value
     
  
