@@ -12,3 +12,17 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+class DataSimulator:
+    """Générateur de données d'automate industriel"""
+    
+    def __init__(self, config: Dict[str, Any]):
+        self.config = config
+        self.machine_config = config.get('machine', {})
+        self.sensors_config = config.get('sensors', {})
+        
+        # États des capteurs
+        self.sensor_states = self._init_sensors()
+        
+        logger.info("Simulateur de données initialisé")
+
+    
