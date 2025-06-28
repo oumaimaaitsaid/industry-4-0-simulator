@@ -1,0 +1,5 @@
+# Dépendances pour Simulateur Usine 4.0
+pyyaml>=6.0
+aiohttp>=3.8.0
+paho-mqtt>1.6.0
+python-dateutil>=2.8.0

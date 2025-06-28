@@ -1,1 +1,79 @@
-# 
+# # Configuration du Simulateur Usine 4.0
+# Conforme au cahier des charges
+
+# Configuration machine
+machine:
+  id: "AUTO-01"
+  name: "Ligne de production Alpha"
+  location: "Atelier 1"
+
+# Paramètres de simulation
+simulation:
+  interval: 5  # Fréquence d'envoi en secondes
+  duration: 0  # 0 = infini
+
+# Configuration des capteurs
+sensors:
+  temperature:
+    initial: 25.0
+    min: 15.0
+    max: 85.0
+    variation: 2.0
+  
+  humidity:
+    initial: 50.0
+    min: 30.0
+    max: 90.0
+    variation: 5.0
+  
+  rpm:
+    initial: 1450
+    min: 0
+    max: 3000
+    variation: 50
+  
+  vibration:
+    initial: 1.0
+    min: 0.5
+    max: 5.0
+    variation: 0.2
+  
+  energy:
+    initial: 2.5
+    min: 0.5
+    max: 15.0
+    variation: 0.5
+
+# Configuration des sorties
+outputs:
+  # Affichage console pour test
+  console:
+    enabled: true
+    format: "detailed"  # simple ou detailed
+  
+  # Envoi vers API REST
+  http:
+    enabled: false
+    url: "http://localhost:8080/api/data"
+    headers:
+      Content-Type: "application/json"
+      Authorization: "Bearer your-token"
+    timeout: 10
+  
+  # Publication MQTT
+  mqtt:
+    enabled: false
+    broker_host: "localhost"
+    broker_port: 1883
+    topic: "usine/machine/AUTO-01"
+    qos: 1
+    username: null
+    password: null
+  
+  # Sauvegarde fichier local
+  file:
+    enabled: true
+    path: "data/machine_data.json"
+    format: "json"  # json ou csv
+    rotation: true
+    max_size_mb: 10
