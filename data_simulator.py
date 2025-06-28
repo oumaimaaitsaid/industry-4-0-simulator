@@ -84,4 +84,30 @@ class DataSimulator:
         
         return new_value
     
- 
+    def _update_status(self) -> str:
+        """Mettre à jour le statut de la machine"""
+        current = self.sensor_states['status']['current']
+        
+        # 95% de chance de rester dans l'état actuel
+        if random.random() < 0.95:
+            return current
+        
+        # 5% de chance de changer d'état
+        states = self.sensor_states['status']['states']
+        return random.choice([s for s in states if s != current])
+    
+    def _calculate_uptime(self) -> int:
+        """Calculer le temps de fonctionnement"""
+        current_time = time.time()
+        uptime_state = self.sensor_states['uptime']
+        
+        elapsed = current_time - uptime_state.get('last_update', uptime_state['start_time'])
+        
+        # Ajouter au temps total si la machine est ON
+        if self.sensor_states['status']['current'] == 'ON':
+            uptime_state['total'] += elapsed
+        
+        uptime_state['last_update'] = current_time
+        
+        return int(uptime_state['total'])
+    
