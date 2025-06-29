@@ -111,3 +111,24 @@ class DataSimulator:
         
         return int(uptime_state['total'])
     
+    def generate_data(self) -> Dict[str, Any]:
+        """Générer un échantillon de données complet"""
+        # Format exact du cahier des charges
+        data = {
+            "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "machine_id": self.machine_config.get('id', 'AUTO-01'),
+            "temperature": round(self._update_sensor('temperature'), 1),
+            "humidity": round(self._update_sensor('humidity'), 1),
+            "rpm": int(self._update_sensor('rpm')),
+            "vibration": round(self._update_sensor('vibration'), 1),
+            "energy_kwh": round(self._update_sensor('energy'), 1),
+            "uptime": self._calculate_uptime(),
+            "status": self._update_status()
+        }
+        
+        # Mettre à jour le statut pour le prochain calcul d'uptime
+        self.sensor_states['status']['current'] = data['status']
+        
+        logger.debug(f"Données générées: {json.dumps(data)}")
+        
+        return data
