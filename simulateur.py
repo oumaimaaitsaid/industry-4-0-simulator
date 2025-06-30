@@ -57,3 +57,26 @@ class SimulateurUsine:
             logger.error(f"Erreur dans le fichier YAML: {e}")
             sys.exit(1)
     
+    def _initialize_outputs(self):
+        """Initialiser les modules de sortie selon la configuration"""
+        outputs_config = self.config.get('outputs', {})
+        
+        # Console output
+        if outputs_config.get('console', {}).get('enabled', False):
+            self.outputs.append(ConsoleOutput(outputs_config['console']))
+        
+        # HTTP output
+        if outputs_config.get('http', {}).get('enabled', False):
+            self.outputs.append(HTTPOutput(outputs_config['http']))
+        
+        # MQTT output
+        if outputs_config.get('mqtt', {}).get('enabled', False):
+            self.outputs.append(MQTTOutput(outputs_config['mqtt']))
+        
+        # File output
+        if outputs_config.get('file', {}).get('enabled', False):
+            self.outputs.append(FileOutput(outputs_config['file']))
+        
+        logger.info(f"Initialisé {len(self.outputs)} modules de sortie")
+    
+    
