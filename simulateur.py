@@ -120,3 +120,21 @@ class SimulateurUsine:
             
             logger.info("Simulateur arrêté proprement")
 
+async def main():
+    """Point d'entrée principal"""
+    try:
+        # Vérifier les arguments
+        config_file = sys.argv[1] if len(sys.argv) > 1 else "config.yaml"
+        
+        # Créer et lancer le simulateur
+        simulateur = SimulateurUsine(config_file)
+        await simulateur.run()
+        
+    except KeyboardInterrupt:
+        logger.info("Arrêt demandé par l'utilisateur")
+    except Exception as e:
+        logger.error(f"Erreur fatale: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    asyncio.run(main())
