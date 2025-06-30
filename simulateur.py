@@ -79,4 +79,44 @@ class SimulateurUsine:
         
         logger.info(f"Initialisé {len(self.outputs)} modules de sortie")
     
+    def _signal_handler(self, signum, frame):
+        """Gestionnaire d'arrêt propre"""
+        logger.info(f"Signal {signum} reçu, arrêt en cours...")
+        self.running = False
     
+    async def run(self):
+        """Boucle principale du simulateur"""
+        logger.info("🏭 Démarrage du Simulateur Usine 4.0")
+        self.running = True
+        
+        # Initialiser tous les outputs
+        for output in self.outputs:
+            await output.initialize()
+        
+        try:
+            interval = self.config.get('simulation', {}).get('interval', 5)
+            
+            while self.running:
+                # Générer les données
+                data = self.data_simulator.generate_data()
+                
+                # Envoyer vers tous les outputs
+                tasks = []
+                for output in self.outputs:
+                    tasks.append(output.send_data(data))
+                
+                # Attendre que tous les envois se terminent
+                await asyncio.gather(*tasks, return_exceptions=True)
+                
+                # Attendre l'intervalle configuré
+                await asyncio.sleep(interval)
+                
+        except Exception as e:
+            logger.error(f"Erreur dans la boucle principale: {e}")
+        finally:
+            # Nettoyage
+            for output in self.outputs:
+                await output.cleanup()
+            
+            logger.info("Simulateur arrêté proprement")
+
