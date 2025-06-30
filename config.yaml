@@ -49,12 +49,12 @@ outputs:
   # Affichage console pour test
   console:
     enabled: true
-    format: "detailed"  # simple ou detailed
+    format: "simple"  # simple ou detailed
   
   # Envoi vers API REST
   http:
-    enabled: false
-    url: "http://localhost:8080/api/data"
+    enabled: true
+    url: "https://httpbin.org/post"
     headers:
       Content-Type: "application/json"
       Authorization: "Bearer your-token"
@@ -62,8 +62,8 @@ outputs:
   
   # Publication MQTT
   mqtt:
-    enabled: false
-    broker_host: "localhost"
+    enabled: true
+    broker_host: "test.mosquitto.org"
     broker_port: 1883
     topic: "usine/machine/AUTO-01"
     qos: 1
