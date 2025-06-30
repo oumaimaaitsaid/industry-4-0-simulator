@@ -43,3 +43,17 @@ class SimulateurUsine:
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
     
+    def _load_config(self):
+        """Charger la configuration depuis config.yaml"""
+        try:
+            with open(self.config_path, 'r', encoding='utf-8') as file:
+                config = yaml.safe_load(file)
+            logger.info(f"Configuration chargée depuis {self.config_path}")
+            return config
+        except FileNotFoundError:
+            logger.error(f"Fichier de configuration {self.config_path} introuvable")
+            sys.exit(1)
+        except yaml.YAMLError as e:
+            logger.error(f"Erreur dans le fichier YAML: {e}")
+            sys.exit(1)
+    
