@@ -6,13 +6,15 @@ import subprocess
 import time
 import signal
 import os
+import sys
 
 def test_brutal_shutdown():
     """Test: Le script doit reprendre sans crash"""
     print("🧪 Test d'extinction brutale...")
     
+    python_exe = sys.executable
     # Lancer le simulateur
-    process = subprocess.Popen(['python', 'simulateur.py'])
+    process = subprocess.Popen([python_exe, 'simulateur.py'])
     
     # Laisser tourner 10 secondes
     time.sleep(10)
