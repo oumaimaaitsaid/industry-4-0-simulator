@@ -36,7 +36,7 @@ Simulateur modulaire Python développé selon le cahier des charges Usine 4.0. I
 ```bash
 # 1. Cloner le projet
 git clone https://github.com/oumaimaaitsaid/industry-4-0-simulator.git
-cd usine_simulator
+cd simulateur-usine-4-0
 
 # 2. Créer environnement virtuel
 python -m venv venv
